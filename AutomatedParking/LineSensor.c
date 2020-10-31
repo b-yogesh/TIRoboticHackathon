@@ -11,20 +11,6 @@ Copyright 2019 Christopher Andrews
 #include "LineSensor.h"
 
 
-uint8_t lineSensors; // value last read from the line sensors
-
-// State variables
-enum State
-{
-    SEARCHING, // searching for a parking slot
-    OBSTACLE, // find a parking slot occupied
-    PARKED // showing the solution
-};
-enum State state; // the robot's state
-
-#define MOVE_SPEED 2200 // the standard movement speed of the robot while maze solving
-
-
 void Clock_Delay1us(uint32_t n){
     // Simple delay function which delays about n microseconds at 48MHz.
     n = (382*n) / 100;; // 1 us, tuned at 48 MHz
