@@ -7,6 +7,10 @@ Copyright (C) 2012 - 2017 Texas Instruments Incorporated - http://www.ti.com/
 Copyright 2019 Christopher Andrews
 */
 
+#ifndef LINE_SENSOR_H
+#define LINE_SENSOR_H
 
 void LineSensor_Init();
 uint8_t LineSensor_Read();
+
+#endif /** LINE_SENSOR_H **/

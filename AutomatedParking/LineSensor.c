@@ -1,46 +1,83 @@
-/* LineSensor.c
- * This file contains code related to the line sensors, including
- * initialization and reading the sensors. 
- * Code adapted for the application "Automated Parking"
- 
-Copyright (C) 2012 - 2017 Texas Instruments Incorporated - http://www.ti.com/
-Copyright 2019 Christopher Andrews
-*/
+
+//#include "Clock.h"
 
 #include "msp.h"
+#include <stdint.h>
 #include "LineSensor.h"
-#include "Clock.h"
-    
+
+unsigned long i;
+unsigned int time=1000;
+unsigned long readout=0;
+unsigned long readoutleft=0;
+unsigned long readoutright=0;
 
 // Initializes the line sensor bar.
 void LineSensor_Init()
 {
-    // P5.3 is the IR LED
-    P5->SEL0 &= ~0x08;
-    P5->SEL1 &= ~0x08; // set P5.3 to GPIO
-    P5->DIR |= 0x08; // set P5.3 to output
-    P5->OUT &= ~0x08; // set P5.3 low
-
-    // P7.0 to P7.7 are the light sensors
-    P7->SEL0 = 0;
-    P7->SEL1 = 0; // set all P7 pins to GPIO
-    P7->DIR = 0; // set all P7 pins to input
-    P7->REN = 0; // disable pull resistors on P7 pins
+    P5->DIR |= 0x38;                        // P5.4 and P4.5 motor drive as output and set P5.3 IR LED output driver
+    P9->DIR = 0x04;                         // P9.2 LED driver control set to output driver
+    P9->OUT = 0x00;                         // P9.2 clear LED driver control
 }
 
-// Read the line sensors and returns the value as an 8-bit unsigned int.
-// 0 = white, 1 = black.
-// Bit 0 = right-most sensor.
-// Bit 7 = left-most sensor.
-uint8_t LineSensor_Read()
+unsigned long LineDetection()
 {
-    P5->OUT |= 0x08; // set P5.3 high (turn on LED)
-    P7->DIR = 0xFF; // set P7 as output
-    P7->OUT = 0xFF; // set P7 pins high
-    Clock_Delay1us(10); // delay 10us to charge the capacitors
-    P7->DIR = 0; // set P7 as input
-    Clock_Delay1us(800); // delay 0.8ms to discharge the capacitors slightly
-    uint8_t result = P7->IN; // read P7
-    P5->OUT &= ~0x08; // set P5.3 low (turn off LED)
-    return result;
+        P5->DIR = 0x38;                     // set P5.3 (IR LED) as output
+        P5->OUT = 0x08;                     // turn on P5.3 (IR LED)
+        P9->OUT = 0x04;                     // turn on P9.2 (IR LED)
+        P7->DIR = 0xFF;                     // P7.0 to P7.7 (IR Sensors) as output
+        P7->OUT = 0xFF;                     // turn on P7 to charge caps
+        __delay_cycles(10);                 // wait 10 x 1us before start
+        P7->DIR = 0x00;                     // P7.0 to P7.7 (IR Sensors) as inputs
+        __delay_cycles(2000);               // wait 1000 x 1us for caps to discharge
+         readout = P7->IN;                  // read IR sensor values
+        P5->OUT = 0x00;                     // turn off P5.3 (IR LED)
+
+        readoutleft = readout/16;           // separate left and right side of line sensor
+        readoutright = readout%16;
+
+        if(readout==0)
+        {
+           MoveForward(15, 1000);
+        }
+        else if(readoutleft>readoutright)
+        {
+            i = 1000;                               // set i to 1000 -> number of cycles
+            while(i > 0)                            // in this loop the left moving is realized with a PWM signal
+            {
+                P2->OUT = 0;                        // P2.6 and P2.7 set to low -> no signal for left (P2.7) and right (2.6) motor
+                __delay_cycles(100);                // wait x cycles
+                P2->OUT = 0xC0;                     // P2.6 and P2.7 set to high -> enable signal for left (P2.7) and right (2.6) motor
+                P2->OUT = 0x40;                     // P2.6 set to high -> enable signal for right (2.6) motor
+                __delay_cycles(2);                  // wait x cycles
+                P2->OUT = 0;                        // P2.6 set to low -> no signal for right (2.6) motor
+                i--;                                // decrement cycle counter
+            }
+        }
+        else if(readoutleft<readoutright)
+        {
+            i = 1000;                               // set i to 100000 -> number of cycles
+            while(i > 0)                            // in this loop the right moving is realized with a PWM signal
+            {
+                P2->OUT = 0;                        // P2.6 and P2.7 set to low -> no signal for left (P2.7) and right (2.6) motor
+                __delay_cycles(100);                // wait 30 cycles
+                P2->OUT = 0xC0;                     // P2.6 and P2.7 set to high -> enable signal for left (P2.7) and right (2.6) motor
+                P2->OUT = 0x80;                     // P2.7 set to high -> enable signal for left (P2.7) motor
+                __delay_cycles(2);                  // wait 30 cycles
+                P2->OUT = 0;                        // P2.7 set to low -> no signal for left motor
+                i--;                                // decrement cycle counter
+            }
+        }
+        else if(readoutleft==readoutright)
+        {
+            i = 1000;                               // set i to 100000 -> number of cycles
+            while(i > 0)                            // in this loop the forward moving is realized with a PWM signal
+            {
+                P2->OUT = 0;                        // P2.6 and P2.7 set to low -> no signal for left (P2.7) and right (2.6) motor
+                __delay_cycles(5);                  // wait 30 cycles
+                P2->OUT = 0xC0;                     // P2.6 and P2.7 set to high -> enable signal for left (P2.7) and right (2.6) motor
+                P2->OUT = 0;                        // P2.6 and P2.7 set to low -> no signal for left (P2.7) and right (2.6) motor
+                i--;                                // decrement cycle counter
+            }
+        }
+        return readout;
 }
