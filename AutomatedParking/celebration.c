@@ -1,14 +1,10 @@
 
 
-// #include <stdint.h>               // uncomment if testing as main 1/3
-// #include "msp.h"                  // uncomment if testing as main 3/3
-
-
-
-// main (void){                     // uncomment if testing as main 3/3
+ #include <stdint.h>
+ #include "msp.h"
+ #include "celebration.h"    
     
-    
-celebration (void){
+void celebration (){
     unsigned long i;
     unsigned long j;
     
