@@ -11,7 +11,18 @@ Copyright 2019 Christopher Andrews
 #include "LineSensor.h"
 #include "MoveRobot.h"
 
+uint8_t lineSensors; // value last read from the line sensors
 
+// State variables
+enum State
+{
+    SEARCHING, // searching for a parking slot
+    OBSTACLE, // find a parking slot occupied
+    PARKED // showing the solution
+};
+enum State state; // the robot's state
+
+#define MOVE_SPEED 2200 // the standard movement speed of the robot while maze solving
 
 // Moves the robot forward approximately half its length.
 inline void MoveForwardHalfCar()
