@@ -1,6 +1,6 @@
 # TIRoboticHackathon
 
-Smart Parking Robot
+## Smart Parking Robot
 
 ![bot](https://user-images.githubusercontent.com/22027039/97785118-6602a280-1ba3-11eb-958c-ff2386ceded2.jpg)
 
