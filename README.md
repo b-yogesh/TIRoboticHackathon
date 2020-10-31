@@ -1,4 +1,4 @@
-# TIRoboticHackathon
+# TI Robotic Hackathon 2020
 
 ## Smart Parking Robot
 
