@@ -9,16 +9,7 @@ Copyright 2019 Christopher Andrews
 
 #include "msp.h"
 #include "LineSensor.h"
-
-
-void Clock_Delay1us(uint32_t n){
-    // Simple delay function which delays about n microseconds at 48MHz.
-    n = (382*n) / 100;; // 1 us, tuned at 48 MHz
-    while (n) // while n > 0 (run n times)
-    {
-        n--; // decrement n so while-loop runs n times
-    }
-}
+#include "Clock.h"
     
 
 // Initializes the line sensor bar.

@@ -17,24 +17,25 @@ int main(void) {                            // this code checks the line sensor 
     InitMotor();
     while (1)
     {
-    MoveRobot(FORWARD, 15, 100);
+    MoveRobot(FORWARD, 15, 100000);
     __delay_cycles(2000);
-    MoveRobot(BACKWARD, 15, 100);
+    MoveRobot(BACKWARD, 15, 100000);
     __delay_cycles(2000);
     Turn180();
     __delay_cycles(2000); 
-    MoveRobot(BACKWARD, 15, 100);
+    MoveRobot(BACKWARD, 15, 100000);
      __delay_cycles(2000);
-    MoveRobot(FORWARD, 15, 100);
+    MoveRobot(FORWARD, 15, 100000);
      __delay_cycles(2000);
      TurnLeft();
     __delay_cycles(2000);
-    MoveRobot(FORWARD, 15, 100);
+    MoveRobot(FORWARD, 15, 100000);
      __delay_cycles(2000);
        TurnRight();
     __delay_cycles(2000);
-    MoveRobot(FORWARD, 15, 100);
+    MoveRobot(FORWARD, 15, 100000);
      __delay_cycles(2000);
     //__delay_cycles(2000); 
     }
 }
+

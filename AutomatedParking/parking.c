@@ -27,23 +27,23 @@ enum State state; // the robot's state
 // Moves the robot forward approximately half its length.
 inline void MoveForwardHalfCar()
 {
-    Motor_ForwardSimple(MOVE_SPEED, 27 * 1675 / MOVE_SPEED);
+    Motor_Forward(MOVE_SPEED, 27 * 1675 / MOVE_SPEED);
 }
 
 
 // Moves the robot forward slightly under half its length.
 inline void MoveForwardUnderHalfCar()
 {
-    Motor_ForwardSimple(MOVE_SPEED, 22 * 1675 / MOVE_SPEED);
+    Motor_Forward(MOVE_SPEED, 22 * 1675 / MOVE_SPEED);
 }
 
 // Moves the robot backward twice its length.
 inline void MoveBackwardTwiceCar(){
-    Motor_BackwardSimple(MOVE_SPEED, 4*27 * 1675 / MOVE_SPEED);
+    Motor_Backward(MOVE_SPEED, 4*27 * 1675 / MOVE_SPEED);
     
 }
 
-
+/**
 void main(void){
     
     WDT_A->CTL = WDT_A_CTL_PW | WDT_A_CTL_HOLD; // stop watchdog timer
@@ -181,8 +181,6 @@ void main(void){
             
 
 	    }
-            
-    /*          
         }else if (state == OBSTACLE){
             // it moves backwards and tries to find the next spot
             MoveBackwardTwiceCar()
@@ -199,10 +197,11 @@ void main(void){
                 Motor_StopSimple(); // stop the motors
                 CelebrationSatisfaction();
         }
-    
-     */  
         
     }
+
     
     
-}
+    
+     }     
+     */

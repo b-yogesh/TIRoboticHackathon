@@ -10,4 +10,3 @@ Copyright 2019 Christopher Andrews
 
 void LineSensor_Init();
 uint8_t LineSensor_Read();
-void Clock_Delay1us(uint32_t n);
