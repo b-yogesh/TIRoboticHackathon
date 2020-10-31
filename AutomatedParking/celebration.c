@@ -30,9 +30,9 @@ celebration (void){
     P8->DIR |= 0xE1;                            // P8 LED pins as output
     P8->OUT = 0x00;                             // disabeling all LEDs
 
-
-
-    P8->OUT = 0xE1;
+    P8->OUT = 0xE1;                             // enabeling all LEDs
+    
+    
     j = 190000;                                 
     while( j > 0)                               //
     {                                           // 
@@ -56,11 +56,11 @@ celebration (void){
     
     while(1){               // blinking sequence
     for(i=10000; i>0; i--); // delay
-    P8->OUT = 0x70;
+    P8->OUT = 0x70;         // right UP && left DOWN LED
     
     
     for(i=10000; i>0; i--); // delay
-    P8->OUT = 0x91;
+    P8->OUT = 0x91;         // left UP && right DOWN LED
 
     
     for(i=10000; i>0; i--); // delay
