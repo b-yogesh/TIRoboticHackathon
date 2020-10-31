@@ -32,7 +32,7 @@ void celebration (){
     j = 190000;                                 
     while( j > 0)                               //
     {                                           // 
-        __delay_cycles(10);                      // wait 5 cycles
+        __delay_cycles(2);                      // wait 5 cycles
         P5->OUT = 0x20;                         // directions: 0x20 360 right
         P2->OUT = 0xC0;                         // enabeling PWM
         P2->OUT = 0;                            // disabeling PWM
@@ -42,7 +42,7 @@ void celebration (){
     j = 190000;
         while( j > 0)                           //
     {                                           // 
-        __delay_cycles(10);                      // wait 5 cycles
+        __delay_cycles(2);                      // wait 5 cycles
         P5->OUT = 0x10;                         // directions: 0x10 360 left
         P2->OUT = 0xC0;                         // enabeling PWM
         P2->OUT = 0;                            // disabeling PWM
