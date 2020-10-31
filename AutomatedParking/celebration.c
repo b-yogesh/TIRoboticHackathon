@@ -8,7 +8,7 @@
 // main (void){                     // uncomment if testing as main 3/3
     
     
-blinking (void){
+celebration (void){
     unsigned long i;
     unsigned long j;
     
