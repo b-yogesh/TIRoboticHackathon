@@ -22,7 +22,7 @@ enum State
 };
 enum State state; // the robot's state
 
-#define MOVE_SPEED 2200 // the standard movement speed of the robot while maze solving
+#define MOVE_SPEED 2200 // the standard movement speed of the robot while going to the free parking slot
 
 // Moves the robot forward approximately half its length.
 inline void MoveForwardHalfCar()
