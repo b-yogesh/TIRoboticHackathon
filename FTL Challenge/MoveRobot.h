@@ -11,6 +11,7 @@ void MoveBackward(long int duty, long int cycles);
 void TurnRight();
 void TurnLeft();
 void Turn180();
+void MotorStop();
 
 
 #endif
